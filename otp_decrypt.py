@@ -7,7 +7,7 @@ def hex_to_ascii(hex_string):
 
 def crib_drag(message1, message2, crib):
 	max_len = min(len(message1), len(message2))
-	crib_len = len(crib)
+	crib_len = len(crib) - 2
 
 	i = 0
 	while i + crib_len < max_len:
@@ -31,11 +31,20 @@ def crib_drag(message1, message2, crib):
 
 		potential_m2 = potential_key ^ hex_piece2;
 
+		# print("H1: " + piece1 + " AKA " + hex(hex_piece1))
+		# print("H2: " + piece2 + " AKA " + hex(hex_piece2))
+		# print(hex(potential_key))
 
-		#only printing if something that could be an enclish word is produced 
-		word = hex_to_ascii(hex(potential_m2)) 
+
+		string_potential_m2 = hex(potential_m2)
+		if len(string_potential_m2) % 2 == 1:
+			string_potential_m2 = "0" + string_potential_m2
+
+
+		#only printing if something that could be an english word is produced 
+		word = hex_to_ascii(string_potential_m2) 
 		if word.isalpha():
-			print(word + " from m1 " + piece1 + " and m2 " + piece2)
+			print(word + " from m1 " + piece1 + " and m2 " + piece2 + " with key " + hex(potential_key) + " at " + str(i))
 
 
 		i = i + 2
@@ -47,11 +56,14 @@ def ascii_to_hex(message):
 
 
 
+
 			
 file1 = open("09.txt", "r")
 file2 = open("15.txt", "r")
 message1 = file1.read()
 message2 = file2.read()
 
-crib = ascii_to_hex("have").replace("0x","")
+crib = ascii_to_hex("there ")
+print(crib)
 crib_drag(message1, message2, crib)
+
